@@ -1,0 +1,16 @@
+# /etc/systemd/system/gunicorn_kittygram.service
+# Плейсхолдеры {{USER}} и {{APP_DIR}} подставляет deploy.sh.
+[Unit]
+Description=Gunicorn daemon for Kittygram
+After=network.target postgresql.service
+
+[Service]
+User={{USER}}
+Group=www-data
+WorkingDirectory={{APP_DIR}}/backend
+EnvironmentFile={{APP_DIR}}/.env
+ExecStart={{APP_DIR}}/venv/bin/gunicorn --bind 127.0.0.1:8000 --workers 3 --access-logfile - kittygram_backend.wsgi
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
