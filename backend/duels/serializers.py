@@ -171,7 +171,7 @@ class CatRatingSerializer(serializers.ModelSerializer):
     cat_name = serializers.CharField(source='cat.name', read_only=True)
     owner = serializers.CharField(source='cat.owner.username',
                                   read_only=True)
-    place = serializers.IntegerField(read_only=True)
+    place = serializers.IntegerField(read_only=True, allow_null=True)
 
     class Meta:
         model = CatRating

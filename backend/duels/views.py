@@ -1,4 +1,5 @@
-from django.db.models import Count, IntegerField, OuterRef, Subquery, Value
+from django.db.models import (Case, Count, F, IntegerField, OuterRef,
+                              Subquery, Value, When)
 from django.db.models.functions import Coalesce
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
@@ -151,6 +152,9 @@ class DuelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     retrieve=extend_schema(summary='Рейтинг котика (по id котика)'),
 )
 class CatRatingViewSet(viewsets.ReadOnlyModelViewSet):
+    """Место считается только среди котиков, проведших хотя бы одну дуэль;
+    у остальных place = null, в списке они идут последними."""
+
     serializer_class = CatRatingSerializer
     permission_classes = (permissions.AllowAny,)
     lookup_field = 'cat'
@@ -159,14 +163,23 @@ class CatRatingViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = CatRatingFilter
     ordering_fields = ('rating', 'wins', 'duels_count')
-    ordering = ('-rating', 'cat_id')
+    ordering = None
 
     def get_queryset(self):
         higher = (
-            CatRating.objects.filter(rating__gt=OuterRef('rating'))
+            CatRating.objects
+            .filter(duels_count__gt=0, rating__gt=OuterRef('rating'))
             .order_by().annotate(group=Value(1)).values('group')
             .annotate(cnt=Count('*')).values('cnt')
         )
-        return CatRating.objects.select_related('cat__owner').annotate(
-            place=Coalesce(Subquery(higher, output_field=IntegerField()),
-                           0) + 1)
+        place = Case(
+            When(duels_count=0, then=Value(None)),
+            default=Coalesce(Subquery(higher, output_field=IntegerField()),
+                             0) + 1,
+            output_field=IntegerField(),
+        )
+        return (
+            CatRating.objects.select_related('cat__owner')
+            .annotate(place=place)
+            .order_by(F('place').asc(nulls_last=True), '-rating', 'cat_id')
+        )

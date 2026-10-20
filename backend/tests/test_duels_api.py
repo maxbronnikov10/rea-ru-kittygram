@@ -76,7 +76,15 @@ def test_full_duel_flow(client_for, alice, bob, make_user, cats, duel):
     assert CatRating.objects.get(cat=murka).rating == 990
     board = client_for().get('/api/ratings/').json()['results']
     assert board[0]['cat_name'] == 'Барсик' and board[0]['place'] == 1
-    assert client_for().get(f'/api/ratings/{murka.id}/').json()['losses'] == 1
+    murka_rating = client_for().get(f'/api/ratings/{murka.id}/').json()
+    assert murka_rating['losses'] == 1 and murka_rating['place'] == 2
+
+
+def test_unrated_cats_have_no_place(client_for, make_user, make_cat, cats,
+                                    duel, bob):
+    newbie = make_cat(make_user('newbie'), 'Новичок')
+    rating = client_for().get(f'/api/ratings/{newbie.id}/').json()
+    assert rating['place'] is None and rating['rating'] == 1000
 
 
 def test_duel_without_votes_is_not_counted(client_for, bob, duel, cats):

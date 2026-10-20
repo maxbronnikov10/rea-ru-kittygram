@@ -169,7 +169,7 @@ http :9000/api/cats/ color==white ordering==-birth_year "Authorization:Token $TO
 | `POST /api/duels/{id}/vote/` | не хозяин участников | голос `{"cat": id}` |
 | `POST /api/duels/{id}/finish/` | авторизованный после окончания голосования, администратор — в любой момент | подвести итоги |
 | `GET /api/duels/{id}/results/` | авторизованный | счёт и изменение рейтинга (после итогов) |
-| `GET /api/ratings/` | любой, без токена | таблица лидеров: `min_duels`, `owner`, `ordering`, `page` |
+| `GET /api/ratings/` | любой, без токена | таблица лидеров: `min_duels`, `owner`, `ordering`, `page`; место (`place`) есть только у котиков, проведших хотя бы одну дуэль |
 | `GET /api/ratings/{cat_id}/` | любой, без токена | рейтинг и статистика котика |
 
 Проверки: вызывать можно только своим котиком и только чужого; между двумя
