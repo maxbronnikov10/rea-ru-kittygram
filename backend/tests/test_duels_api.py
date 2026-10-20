@@ -21,6 +21,7 @@ def duel(client_for, alice, cats):
         'challenger': barsik.id, 'opponent': murka.id, 'voting_hours': 24,
         'message': 'Чья шерсть пушистее?'})
     assert response.status_code == 201, response.json()
+    assert response.json()['votes_total'] == 0
     return Duel.objects.get(pk=response.json()['id'])
 
 

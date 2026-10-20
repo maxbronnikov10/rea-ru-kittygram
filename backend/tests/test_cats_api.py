@@ -117,5 +117,7 @@ def test_achievements(client_for, alice, make_user):
 
 
 def test_cat_detail_not_found(client_for, alice):
-    assert client_for(alice).get('/api/cats/999/').status_code == 404
+    response = client_for(alice).get('/api/cats/999/')
+    assert response.status_code == 404
+    assert response.json() == {'detail': 'Объект не найден.'}
     assert not Cat.objects.exists()

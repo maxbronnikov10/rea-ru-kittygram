@@ -149,6 +149,7 @@ REST_FRAMEWORK = {
         'duel_votes': os.getenv('THROTTLE_DUEL_VOTES', '60/hour'),
     },
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'EXCEPTION_HANDLER': 'kittygram_backend.exceptions.api_exception_handler',
 }
 
 DJOSER = {

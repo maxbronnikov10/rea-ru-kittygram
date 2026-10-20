@@ -36,7 +36,7 @@ class DuelSerializer(serializers.ModelSerializer):
                                           read_only=True)
     status_display = serializers.CharField(source='get_status_display',
                                            read_only=True)
-    votes_total = serializers.IntegerField(read_only=True)
+    votes_total = serializers.IntegerField(read_only=True, default=0)
     my_vote = serializers.SerializerMethodField()
     winner = serializers.PrimaryKeyRelatedField(read_only=True)
 
@@ -95,8 +95,8 @@ class DuelCreateSerializer(serializers.ModelSerializer):
             ).count()
             if open_count >= limit:
                 raise serializers.ValidationError(
-                    f'У котика «{cat.name}» уже {open_count} незавершённых '
-                    f'дуэли — это максимум.')
+                    f'У котика «{cat.name}» слишком много незавершённых '
+                    f'дуэлей (максимум {limit}).')
         return data
 
     def to_representation(self, instance):
