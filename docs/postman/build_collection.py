@@ -24,8 +24,9 @@ def request(name, method, path, token=None, body=None, tests=None,
             description=''):
     url_raw = '{{base_url}}' + path
     path_part, _, query = path.partition('?')
+    # Пустой последний сегмент — это завершающий «/» в адресе
     url = {'raw': url_raw, 'host': ['{{base_url}}'],
-           'path': [p for p in path_part.split('/') if p]}
+           'path': path_part.strip('/').split('/') + ['']}
     if query:
         url['query'] = [dict(zip(('key', 'value'), q.split('=', 1)))
                         for q in query.split('&')]

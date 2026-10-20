@@ -44,7 +44,8 @@
               ],
               "path": [
                 "api",
-                "users"
+                "users",
+                ""
               ]
             },
             "description": "",
@@ -88,7 +89,8 @@
               "path": [
                 "api",
                 "token",
-                "login"
+                "login",
+                ""
               ]
             },
             "description": "",
@@ -137,7 +139,8 @@
               "path": [
                 "api",
                 "users",
-                "me"
+                "me",
+                ""
               ]
             },
             "description": ""
@@ -172,7 +175,8 @@
               ],
               "path": [
                 "api",
-                "cats"
+                "cats",
+                ""
               ]
             },
             "description": ""
@@ -210,7 +214,8 @@
               ],
               "path": [
                 "api",
-                "cats"
+                "cats",
+                ""
               ]
             },
             "description": "",
@@ -260,7 +265,8 @@
               ],
               "path": [
                 "api",
-                "cats"
+                "cats",
+                ""
               ]
             },
             "description": "",
@@ -308,7 +314,8 @@
               ],
               "path": [
                 "api",
-                "cats"
+                "cats",
+                ""
               ],
               "query": [
                 {
@@ -362,7 +369,8 @@
               "path": [
                 "api",
                 "cats",
-                "{{cat_a}}"
+                "{{cat_a}}",
+                ""
               ]
             },
             "description": "",
@@ -409,7 +417,8 @@
               ],
               "path": [
                 "api",
-                "achievements"
+                "achievements",
+                ""
               ]
             },
             "description": ""
@@ -448,7 +457,8 @@
               ],
               "path": [
                 "api",
-                "users"
+                "users",
+                ""
               ]
             },
             "description": "",
@@ -492,7 +502,8 @@
               "path": [
                 "api",
                 "token",
-                "login"
+                "login",
+                ""
               ]
             },
             "description": "",
@@ -536,7 +547,8 @@
               ],
               "path": [
                 "api",
-                "users"
+                "users",
+                ""
               ]
             },
             "description": "",
@@ -580,7 +592,8 @@
               "path": [
                 "api",
                 "token",
-                "login"
+                "login",
+                ""
               ]
             },
             "description": "",
@@ -628,7 +641,8 @@
               ],
               "path": [
                 "api",
-                "cats"
+                "cats",
+                ""
               ]
             },
             "description": "",
@@ -677,7 +691,8 @@
               "path": [
                 "api",
                 "cats",
-                "{{cat_a}}"
+                "{{cat_a}}",
+                ""
               ]
             },
             "description": "",
@@ -721,7 +736,8 @@
               "path": [
                 "api",
                 "token",
-                "login"
+                "login",
+                ""
               ]
             },
             "description": "",
@@ -774,7 +790,8 @@
               ],
               "path": [
                 "api",
-                "duels"
+                "duels",
+                ""
               ]
             },
             "description": "",
@@ -824,7 +841,8 @@
               ],
               "path": [
                 "api",
-                "duels"
+                "duels",
+                ""
               ]
             },
             "description": "",
@@ -871,7 +889,8 @@
               ],
               "path": [
                 "api",
-                "duels"
+                "duels",
+                ""
               ],
               "query": [
                 {
@@ -922,7 +941,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "accept"
+                "accept",
+                ""
               ]
             },
             "description": ""
@@ -962,7 +982,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "accept"
+                "accept",
+                ""
               ]
             },
             "description": ""
@@ -1003,7 +1024,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "vote"
+                "vote",
+                ""
               ]
             },
             "description": "",
@@ -1052,7 +1074,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "vote"
+                "vote",
+                ""
               ]
             },
             "description": "",
@@ -1101,7 +1124,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "vote"
+                "vote",
+                ""
               ]
             },
             "description": "",
@@ -1150,7 +1174,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "results"
+                "results",
+                ""
               ]
             },
             "description": ""
@@ -1190,7 +1215,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "finish"
+                "finish",
+                ""
               ]
             },
             "description": ""
@@ -1230,7 +1256,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "finish"
+                "finish",
+                ""
               ]
             },
             "description": ""
@@ -1273,7 +1300,8 @@
                 "api",
                 "duels",
                 "{{duel_id}}",
-                "results"
+                "results",
+                ""
               ]
             },
             "description": ""
@@ -1307,7 +1335,8 @@
               ],
               "path": [
                 "api",
-                "ratings"
+                "ratings",
+                ""
               ],
               "query": [
                 {
@@ -1348,7 +1377,8 @@
               "path": [
                 "api",
                 "ratings",
-                "{{cat_a}}"
+                "{{cat_a}}",
+                ""
               ]
             },
             "description": ""
