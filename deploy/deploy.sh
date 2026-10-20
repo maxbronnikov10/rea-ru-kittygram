@@ -51,7 +51,7 @@ if [ "${NODE_MAJOR:-0}" -lt 18 ]; then
     exit 1
 fi
 cd "$APP_DIR/frontend"
-npm ci --no-audit --no-fund --loglevel=error
+npm ci --ignore-scripts --no-audit --no-fund --loglevel=error
 npm run build > /dev/null
 
 sudo mkdir -p "$WEB_ROOT/media"
