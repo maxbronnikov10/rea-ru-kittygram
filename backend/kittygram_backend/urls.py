@@ -9,6 +9,7 @@ from drf_spectacular.views import (SpectacularAPIView, SpectacularRedocView,
 from rest_framework import routers
 
 from cats.views import AchievementViewSet, CatViewSet
+from duels.views import CatRatingViewSet, DuelViewSet
 
 # Описание эндпоинтов токена для Swagger (djoser не задаёт схему выхода).
 extend_schema_view(post=extend_schema(summary='Получить токен'))(
@@ -20,6 +21,8 @@ extend_schema_view(post=extend_schema(
 router = routers.DefaultRouter()
 router.register('cats', CatViewSet, basename='cat')
 router.register('achievements', AchievementViewSet, basename='achievement')
+router.register('duels', DuelViewSet, basename='duel')
+router.register('ratings', CatRatingViewSet, basename='rating')
 
 urlpatterns = [
     path('admin/', admin.site.urls),

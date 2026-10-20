@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'drf_spectacular',
     'drf_spectacular_sidecar',
     'cats.apps.CatsConfig',
+    'duels.apps.DuelsConfig',
 ]
 
 MIDDLEWARE = [
@@ -145,6 +146,7 @@ REST_FRAMEWORK = {
     'DEFAULT_THROTTLE_RATES': {
         'anon': os.getenv('THROTTLE_ANON', '200/hour'),
         'user': os.getenv('THROTTLE_USER', '5000/day'),
+        'duel_votes': os.getenv('THROTTLE_DUEL_VOTES', '60/hour'),
     },
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
@@ -161,8 +163,8 @@ DJOSER = {
 SPECTACULAR_SETTINGS = {
     'TITLE': 'Kittygram API',
     'DESCRIPTION': (
-        'API сервиса Kittygram: котики, достижения, пользователи. '
-        'Авторизация: заголовок '
+        'API сервиса Kittygram: котики, достижения, пользователи и '
+        'расширение «Кото-дуэли» с рейтингом Эло. Авторизация: заголовок '
         '`Authorization: Token <токен>`, токен выдаёт '
         '`POST /api/token/login/`.'
     ),
@@ -178,11 +180,17 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOWED_ORIGINS = env_list('CORS_ALLOWED_ORIGINS')
 CORS_URLS_REGEX = r'^/api/.*$'
 
+# Параметры механики дуэлей.
+DUEL_ELO_K = int(os.getenv('DUEL_ELO_K', '32'))
+DUEL_START_RATING = 1000
+DUEL_MAX_OPEN_PER_CAT = int(os.getenv('DUEL_MAX_OPEN_PER_CAT', '3'))
+
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'handlers': {'console': {'class': 'logging.StreamHandler'}},
     'loggers': {
         'django': {'handlers': ['console'], 'level': 'INFO'},
+        'duels': {'handlers': ['console'], 'level': 'INFO'},
     },
 }
