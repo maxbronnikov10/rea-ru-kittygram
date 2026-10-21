@@ -37,7 +37,7 @@ docker-compose.yml
 Нужны Docker и Docker Compose.
 
 ```bash
-git clone https://github.com/<ваш-логин>/kittygram.git
+git clone https://github.com/maxbronnikov10/rea-ru-kittygram.git kittygram
 cd kittygram
 cp .env.example .env          # задать SECRET_KEY и POSTGRES_PASSWORD
 docker compose up -d --build
@@ -203,7 +203,7 @@ API и сценарий дуэли, включая ошибки 400 и 403. Им
 фронтенда (в Ubuntu 24.04 ставится из apt).
 
 ```bash
-git clone https://github.com/<ваш-логин>/kittygram.git
+git clone https://github.com/maxbronnikov10/rea-ru-kittygram.git kittygram
 cd kittygram
 cp .env.example .env    # DB_HOST=localhost, ALLOWED_HOSTS=<IP сервера>, свой SECRET_KEY
 SERVER_NAME=<IP или домен> bash deploy/deploy.sh
