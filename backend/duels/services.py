@@ -1,9 +1,6 @@
-"""Логика дуэлей: старт голосования и подведение итогов с пересчётом Эло.
+"""Старт голосования и подведение итогов дуэли.
 
-Отличие от классического Эло: результат дуэли — не 1/0/0.5, а доля
-голосов. Победа 9:1 даёт котику больше очков, чем победа 6:4, а
-победа над котиком с более высоким рейтингом — больше, чем над
-слабым соперником.
+В формулу Эло вместо результата 1/0/0.5 подставляется доля голосов.
 """
 import logging
 from datetime import timedelta
@@ -22,20 +19,17 @@ def expected_score(rating_a, rating_b):
     return 1 / (1 + 10 ** ((rating_b - rating_a) / 400))
 
 
-def rating_delta(rating_a, rating_b, score_a, k=None):
+def rating_delta(rating_a, rating_b, score_a):
     """Изменение рейтинга котика A; изменение для B — с обратным знаком."""
-    k = settings.DUEL_ELO_K if k is None else k
-    return round(k * (score_a - expected_score(rating_a, rating_b)))
+    return round(settings.DUEL_ELO_K
+                 * (score_a - expected_score(rating_a, rating_b)))
 
 
-@transaction.atomic
 def start_duel(duel):
-    now = timezone.now()
     duel.status = Duel.Status.ACTIVE
-    duel.started_at = now
-    duel.ends_at = now + timedelta(hours=duel.voting_hours)
+    duel.started_at = timezone.now()
+    duel.ends_at = duel.started_at + timedelta(hours=duel.voting_hours)
     duel.save(update_fields=('status', 'started_at', 'ends_at'))
-    return duel
 
 
 @transaction.atomic
@@ -58,11 +52,8 @@ def finish_duel(duel):
     duel.challenger_rating_before = rating_a.rating
     duel.opponent_rating_before = rating_b.rating
 
-    if total == 0:
-        # Никто не проголосовал: дуэль не засчитывается.
-        delta = 0
-        duel.winner = None
-    else:
+    delta = 0  # без голосов дуэль не засчитывается
+    if total:
         delta = rating_delta(rating_a.rating, rating_b.rating,
                              votes_a / total)
         rating_a.rating += delta
@@ -78,7 +69,6 @@ def finish_duel(duel):
             rating_b.wins += 1
             rating_a.losses += 1
         else:
-            duel.winner = None
             rating_a.draws += 1
             rating_b.draws += 1
         rating_a.save()
@@ -93,8 +83,8 @@ def finish_duel(duel):
     return duel
 
 
-def finish_expired_duels(now=None):
+def finish_expired_duels():
     """Завершает все дуэли, у которых истекло время голосования."""
-    now = now or timezone.now()
-    expired = Duel.objects.filter(status=Duel.Status.ACTIVE, ends_at__lte=now)
+    expired = Duel.objects.filter(status=Duel.Status.ACTIVE,
+                                  ends_at__lte=timezone.now())
     return [finish_duel(duel) for duel in expired]

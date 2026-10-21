@@ -1,8 +1,3 @@
-"""Настройки проекта Kittygram.
-
-Все секреты и параметры окружения читаются из переменных окружения
-(файл .env в корне репозитория, образец — .env.example).
-"""
 import os
 from pathlib import Path
 
@@ -10,15 +5,8 @@ from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Локально переменные берутся из .env в корне репозитория; в Docker их
-# передаёт docker compose (env_file), они имеют приоритет.
+# .env в корне репозитория; в Docker переменные передаёт compose.
 load_dotenv(BASE_DIR.parent / '.env')
-
-
-def env_bool(name, default=False):
-    return os.getenv(name, str(default)).strip().lower() in (
-        '1', 'true', 'yes', 'on'
-    )
 
 
 def env_list(name, default=''):
@@ -28,7 +16,7 @@ def env_list(name, default=''):
 
 SECRET_KEY = os.getenv('SECRET_KEY', 'unsafe-dev-key-change-me')
 
-DEBUG = env_bool('DEBUG', False)
+DEBUG = os.getenv('DEBUG', 'False').lower() == 'true'
 
 ALLOWED_HOSTS = env_list('ALLOWED_HOSTS', 'localhost,127.0.0.1')
 
@@ -82,8 +70,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'kittygram_backend.wsgi.application'
 
-# База данных: PostgreSQL, если задан POSTGRES_DB, иначе SQLite
-# (удобно для локального запуска без Docker).
+# PostgreSQL, если задан POSTGRES_DB, иначе SQLite.
 if os.getenv('POSTGRES_DB'):
     DATABASES = {
         'default': {
@@ -135,7 +122,6 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.TokenAuthentication',
     ],
     'DEFAULT_PAGINATION_CLASS': 'cats.pagination.CatsPagination',
-    'PAGE_SIZE': 10,
     'DEFAULT_FILTER_BACKENDS': [
         'django_filters.rest_framework.DjangoFilterBackend',
     ],
@@ -153,7 +139,6 @@ REST_FRAMEWORK = {
 }
 
 DJOSER = {
-    'LOGIN_FIELD': 'username',
     'HIDE_USERS': False,
     'PERMISSIONS': {
         'user_list': ['rest_framework.permissions.IsAuthenticated'],
@@ -181,7 +166,6 @@ SPECTACULAR_SETTINGS = {
 CORS_ALLOWED_ORIGINS = env_list('CORS_ALLOWED_ORIGINS')
 CORS_URLS_REGEX = r'^/api/.*$'
 
-# Параметры механики дуэлей.
 DUEL_ELO_K = int(os.getenv('DUEL_ELO_K', '32'))
 DUEL_START_RATING = 1000
 DUEL_MAX_OPEN_PER_CAT = int(os.getenv('DUEL_MAX_OPEN_PER_CAT', '3'))

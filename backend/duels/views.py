@@ -39,7 +39,6 @@ class DuelViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin,
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = DuelFilter
     ordering_fields = ('created_at', 'ends_at')
-    ordering = ('-created_at', '-id')
 
     def get_queryset(self):
         return (
@@ -163,7 +162,6 @@ class CatRatingViewSet(viewsets.ReadOnlyModelViewSet):
     filter_backends = (DjangoFilterBackend, filters.OrderingFilter)
     filterset_class = CatRatingFilter
     ordering_fields = ('rating', 'wins', 'duels_count')
-    ordering = None
 
     def get_queryset(self):
         higher = (

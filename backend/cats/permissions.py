@@ -2,8 +2,6 @@ from rest_framework import permissions
 
 
 class OwnerOrReadOnly(permissions.BasePermission):
-    """Читать могут все авторизованные, изменять и удалять — только хозяин."""
-
     message = 'Изменять и удалять котика может только его хозяин.'
 
     def has_object_permission(self, request, view, obj):

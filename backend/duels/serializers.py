@@ -48,11 +48,9 @@ class DuelSerializer(serializers.ModelSerializer):
                   'my_vote', 'winner')
 
     def get_my_vote(self, obj) -> int | None:
-        request = self.context.get('request')
-        if not request or not request.user.is_authenticated:
-            return None
+        user_id = self.context['request'].user.id
         for vote in obj.votes.all():
-            if vote.voter_id == request.user.id:
+            if vote.voter_id == user_id:
                 return vote.cat_id
         return None
 

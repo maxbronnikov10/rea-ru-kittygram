@@ -80,8 +80,7 @@ def test_full_duel_flow(client_for, alice, bob, make_user, cats, duel):
     assert murka_rating['losses'] == 1 and murka_rating['place'] == 2
 
 
-def test_unrated_cats_have_no_place(client_for, make_user, make_cat, cats,
-                                    duel, bob):
+def test_unrated_cats_have_no_place(client_for, make_user, make_cat):
     newbie = make_cat(make_user('newbie'), 'Новичок')
     rating = client_for().get(f'/api/ratings/{newbie.id}/').json()
     assert rating['place'] is None and rating['rating'] == 1000
@@ -121,7 +120,7 @@ def test_cancel_rules(client_for, alice, bob, duel):
     assert response.status_code == 400
 
 
-def test_create_validation(client_for, alice, bob, make_cat, cats, duel):
+def test_create_validation(client_for, alice, make_cat, cats, duel):
     barsik, murka = cats
     client = client_for(alice)
     own_second = make_cat(alice, 'Снежок')

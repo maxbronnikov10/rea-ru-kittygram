@@ -1,4 +1,3 @@
-from django.db.models import Prefetch
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_spectacular.utils import extend_schema, extend_schema_view
 from rest_framework import filters, permissions, viewsets
@@ -27,11 +26,10 @@ class CatViewSet(viewsets.ModelViewSet):
                        filters.OrderingFilter)
     search_fields = ('name',)
     ordering_fields = ('id', 'name', 'birth_year')
-    ordering = ('id',)
 
     def get_queryset(self):
         return Cat.objects.select_related('owner').prefetch_related(
-            Prefetch('achievements', queryset=Achievement.objects.all()))
+            'achievements')
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
