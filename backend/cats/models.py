@@ -52,8 +52,10 @@ class Cat(models.Model):
 
 
 class AchievementCat(models.Model):
-    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE)
-    cat = models.ForeignKey(Cat, on_delete=models.CASCADE)
+    achievement = models.ForeignKey(Achievement, on_delete=models.CASCADE,
+                                    verbose_name='Достижение')
+    cat = models.ForeignKey(Cat, on_delete=models.CASCADE,
+                            verbose_name='Котик')
 
     class Meta:
         verbose_name = 'достижение котика'

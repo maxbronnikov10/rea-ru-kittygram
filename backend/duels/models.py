@@ -81,12 +81,18 @@ class Duel(models.Model):
         Cat, on_delete=models.SET_NULL, null=True, blank=True,
         related_name='duels_won', verbose_name='Победитель',
     )
-    challenger_votes = models.PositiveIntegerField(default=0)
-    opponent_votes = models.PositiveIntegerField(default=0)
-    challenger_rating_before = models.IntegerField(null=True, blank=True)
-    opponent_rating_before = models.IntegerField(null=True, blank=True)
-    challenger_delta = models.IntegerField(null=True, blank=True)
-    opponent_delta = models.IntegerField(null=True, blank=True)
+    challenger_votes = models.PositiveIntegerField(
+        'Голоса за бросившего вызов', default=0)
+    opponent_votes = models.PositiveIntegerField('Голоса за соперника',
+                                                 default=0)
+    challenger_rating_before = models.IntegerField(
+        'Рейтинг бросившего вызов до итогов', null=True, blank=True)
+    opponent_rating_before = models.IntegerField(
+        'Рейтинг соперника до итогов', null=True, blank=True)
+    challenger_delta = models.IntegerField(
+        'Изменение рейтинга бросившего вызов', null=True, blank=True)
+    opponent_delta = models.IntegerField('Изменение рейтинга соперника',
+                                         null=True, blank=True)
 
     class Meta:
         verbose_name = 'дуэль'
@@ -105,7 +111,8 @@ class Duel(models.Model):
         ]
 
     def __str__(self):
-        return f'{self.challenger} vs {self.opponent} ({self.status})'
+        return (f'{self.challenger} vs {self.opponent} '
+                f'({self.get_status_display().lower()})')
 
     def has_cat(self, cat_id):
         return cat_id in (self.challenger_id, self.opponent_id)
