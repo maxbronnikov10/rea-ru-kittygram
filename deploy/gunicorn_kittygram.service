@@ -1,5 +1,5 @@
 # /etc/systemd/system/gunicorn_kittygram.service
-# Плейсхолдеры {{USER}} и {{APP_DIR}} подставляет deploy.sh.
+# Пользователя и каталог проекта подставляет deploy.sh.
 [Unit]
 Description=Gunicorn daemon for Kittygram
 After=network.target postgresql.service
