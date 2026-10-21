@@ -88,6 +88,10 @@ class Command(BaseCommand):
         for voter, cat_name in votes:
             cat = challenger if cat_name == challenger.name else opponent
             Vote.objects.create(duel=duel, voter=users[voter], cat=cat)
+        # Голосование «прошло» вчера: сдвигаем даты дуэли в прошлое.
+        now = timezone.now()
         Duel.objects.filter(pk=duel.pk).update(
-            ends_at=timezone.now() - timedelta(minutes=1))
+            created_at=now - timedelta(hours=26),
+            started_at=now - timedelta(hours=25),
+            ends_at=now - timedelta(hours=1))
         finish_duel(duel)
