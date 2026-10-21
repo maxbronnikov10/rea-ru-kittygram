@@ -103,6 +103,15 @@ def test_only_opponent_owner_answers(client_for, alice, make_user, duel,
     assert response.status_code == 403
 
 
+def test_decline(client_for, alice, bob, duel):
+    url = f'/api/duels/{duel.id}/decline/'
+    assert client_for(alice).post(url).status_code == 403
+    response = client_for(bob).post(url)
+    assert response.status_code == 200
+    assert response.json()['status'] == 'declined'
+    assert client_for(bob).post(url).status_code == 400
+
+
 def test_cancel_rules(client_for, alice, bob, duel):
     assert client_for(bob).post(
         f'/api/duels/{duel.id}/cancel/').status_code == 403
